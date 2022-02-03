@@ -1,5 +1,7 @@
 import pandas as pd
 
+
+
 #Create a program that given a grammar outputs it's FA.
 
 
@@ -43,20 +45,35 @@ for rule in P:
 FiniteAutomata=pd.DataFrame(FA, index=Vn, columns=Vn)
 print(FiniteAutomata)
 
+
+
+#Verifying if a word belongs to the alphabet
+
 word = input("Introduce a word to verify if accepted by FA")
 
-var = 0
-print(FA[0].index("a"))
+#word = "abab"
 
+#Flag if a vital condition is not respected
+flag = 0
+#Var that keeps track which is the current neterminal symbol. Default value = strating Vn (which is S, index 0)
+var = 0
+
+#Verification process for each letter of the word
 for i in range(len(word)):
+    #If the word contains letter not part of terminal symbols the word is not in language
     if word[i] not in Vt:
         print("Not accepted")
+        flag = 1
         break
-    if word[i] not in FA[var]:
+    #If the last letter is not in the terminal column of current row, the word cant exist in the language
+    if i == len(word)-1 and not FA[var][-1] == word[i]:
         print("Not accepted")
+        flag = 1
         break
     else:
-        var = FA[var].index(word[i])
+        #Find the next neterminal variable based on the connecting letter 
+        if word[i] in FA[var][:-1]:
+            var = FA[var].index(word[i])
 
-print("In FA")
-
+if flag ==0:
+    print("Accepted")
