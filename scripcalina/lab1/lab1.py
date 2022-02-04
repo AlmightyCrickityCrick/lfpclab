@@ -84,7 +84,7 @@ else:
 
 edges = list()
 labels = dict()
-colors = ["green", "blue", "red", "grey"]
+colors = ["green", "blue", "red", "grey", "yellow", "brown"]
 color_edges= []
 n= "q"
 
@@ -95,6 +95,7 @@ for src in range(len(FA)):
             edges.append([n + str(src), n + str(dest)])
             labels[(n + str(src), n + str(dest))]=FA[src][dest]
             color_edges.append(colors[Vt.index(FA[src][dest])])
+
 
 
 #Create the graph itself
@@ -112,8 +113,10 @@ nx.draw_networkx_edges(G, pos=layout, connectionstyle='arc3, rad=0.1', edge_colo
 # nx.draw_networkx_edge_labels(G, pos=layout, edge_labels=labels,)
 
 
-#Custom legend for this variant
-legend_elements=[Line2D([0], [0], color="b", label="a"), Line2D([0], [0], color="g", label="b"), Line2D([0], [0], color="r", label="c")]
+#Custom legend
+legend_elements = []
+for i in range(len(Vt)):
+    legend_elements.append(Line2D([0], [0], color=colors[i], label=Vt[i]))
 
 plt.legend(handles=legend_elements)
 
