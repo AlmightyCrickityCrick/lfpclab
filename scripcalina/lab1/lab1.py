@@ -44,7 +44,11 @@ for rule in P:
         FA[Vn.index(rule[0])][-1]=rule[3]
 
 #Places for commodity of visualisation the FA into a Dataframe, 
-FiniteAutomata=pd.DataFrame(FA, index=Vn, columns=Vn)
+FAVn = []
+for i in range(len(Vn)):
+    FAVn.append("q"+ str(i))
+#Places for commodity of visualisation the FA into a Dataframe, 
+FiniteAutomata=pd.DataFrame(FA, index=FAVn, columns=FAVn)
 print(FiniteAutomata)
 
 
