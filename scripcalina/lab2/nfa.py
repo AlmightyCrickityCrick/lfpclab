@@ -60,3 +60,34 @@ class NFA:
     # Transforms the NFA to DFA (duh)
     def to_dfa(self):
         return DFA(self)
+
+    # Transforms NFA into Grammar
+    def to_grammar(self):
+        #Declares list of neterminal variables
+        Vn = ["S", "A", "B", "C", "D", "E" ]
+        V = "{"
+        for n in Vn[:len(self.states)]:
+            V = V + n + ", "
+        V = V[:-2] + "}"
+        #Declares list of terminal variables
+        Vt = self.trans
+        T = "{"
+        for t in Vt:
+            T = T + t + ", "
+        T = T[:-2] + "}"
+        #Transform mapping of states to grammar rules
+        Rules = "{"
+        for k, v in self.dictFA.items():
+            for term, dest in v.items():
+                if dest != "":
+                    for i in range(1, len(dest), 2):
+                        Rules = Rules + Vn[int(k[1])] + "->" + term + Vn[int(dest[i])] + ", "
+                        if self.states[-1] == k:
+                            Rules = Rules + Vn[int(k[1])] + "->" + term + "}"
+
+        print("G(L) = (Vn, Vt, P, S)")
+        print("Vn= ", V)
+        print("Vt= ", T)
+        print("P= ", Rules)
+        
+        
