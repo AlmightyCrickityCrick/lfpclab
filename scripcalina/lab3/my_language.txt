@@ -1,0 +1,16 @@
+pikachu divisible(var1, var2){
+    quack var1 // var2 == 0 { 
+        *=* "divisible" 
+    }hjonk{
+        *=* "not divisible"
+    }
+
+}
+
+pikachu main(){
+    nya nr1 : 24
+    nya nr2 : 8
+
+    konnichiwa(divisible(nr1, nr2))
+    konnichiwa("Daca nu zbor pentru asta peste fereastra apu nu stiu")
+}

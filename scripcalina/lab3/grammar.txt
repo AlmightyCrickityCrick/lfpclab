@@ -1,0 +1,32 @@
+G(L) = {Sn, St, S, P}
+St = {a..z, A..Z, ',' , '.', "", }, {, (, ), 0..9, +, <<, >>, ==, <=, >=, <>, owo, uwu, -, *, /, //, *=*, :, konnichiwa, nya, pikachu, quack, hjonk }
+<program> - start symbol
+Sn ={<program>, <function>, <ident>, <letters>, <digits>, 
+<characters>, <string>, <expression>, <declaration>, <number>, <function-call>
+<flow-control>, <number>, <function-name>, <operation>, 
+<arithmetic-operation>, <logic-operation>, <logic-operator> 
+<arithm-operator>}
+
+P = {
+    <program> : <function>+
+    <function> : pikachu <ident> (<ident>*){ <expression>+ [*=* <ident> | <expression>|<operation>]}
+    <ident> : <letters> [<letters>*| <digits>*]
+    <letters> : a..z, A...z
+    <digits> : 0..9
+    <characters> : 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\x0b\x0c 
+    <string> : " <characters>* "
+    <expression> : <declaration> | <function-call> | <flow-control>>
+    <declaration> : nya <ident> [: <ident> | <operation> | <function-call> | <string>| <number>]
+    <number> : <digits>+ [. <digits>+]
+    <function-call> : <function-name> ([<ident>* | <numbers>* | <string>*]) |
+                      <ident> ([<ident>* | <numbers>* | <string>*])
+    <function-name> : konnichiwa
+    <operation> : <arithmetic-operation> | <logic-operation>
+    <arithmetic-operation> : <number> <arithm-operator> <number> |
+                             <ident> <arithm-operator> <ident>
+    <arithm-operator> : + | - | / | * | //
+    <logic-operation> :  <number> <logic-operator> <number> |
+                        <ident> <logic-operator> <ident>
+    <logic-operator>  : == | >> | << | >= | <= | <> | owo | uwu
+    <flow-control> : quack <logic-operation> {<expression>+} [hjonk {<expression>+}]
+}
