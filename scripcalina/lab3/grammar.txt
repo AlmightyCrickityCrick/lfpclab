@@ -1,11 +1,11 @@
 G(L) = {Sn, St, S, P}
-St = {a..z, A..Z, ',' , '.', "", }, {, (, ), 0..9, +, <<, >>, ==, <=, >=, <>, owo, uwu, -, *, /, //, *=*, :, konnichiwa, nya, pikachu, quack, hjonk }
+St = {a..z, A..Z, ',' , '.', "", }, {, (, ), 0..9, +, <<, >>, ==, <=, >=, <>, owo, uwu, -, *, /, //, *=*, :, konnichiwa, nya, pikachu, quack, hjonk, ehe, sike }
 <program> - start symbol
 Sn ={<program>, <function>, <ident>, <letters>, <digits>, 
 <characters>, <string>, <expression>, <declaration>, <number>, <function-call>
 <flow-control>, <number>, <function-name>, <operation>, 
 <arithmetic-operation>, <logic-operation>, <logic-operator> 
-<arithm-operator>}
+<arithm-operator>, <boolean>}
 
 P = {
     <program> : <function>+
@@ -26,7 +26,9 @@ P = {
                              <ident> <arithm-operator> <ident>
     <arithm-operator> : + | - | / | * | //
     <logic-operation> :  <number> <logic-operator> <number> |
-                        <ident> <logic-operator> <ident>
+                        <ident> <logic-operator> <ident>    |
+                        <boolean> <logic-operator> <boolean>
     <logic-operator>  : == | >> | << | >= | <= | <> | owo | uwu
     <flow-control> : quack <logic-operation> {<expression>+} [hjonk {<expression>+}]
+    <boolean> : ehe | sike
 }

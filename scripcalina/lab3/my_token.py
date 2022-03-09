@@ -30,7 +30,7 @@ RBRACE = 'RBRACE'
 
 COMMA = 'COMMA'
 
-KEYWORDS = [('nya', 'VAR'), ('quack', 'IF'), ('hjonk', 'ELSE',), ('*=*', 'RETURN',), ('pikachu','FUNC'), ('owo', 'AND'), ('uwu', 'OR')]
+KEYWORDS = [('nya', 'VAR'), ('quack', 'IF'), ('hjonk', 'ELSE',), ('*=*', 'RETURN',), ('pikachu','FUNC'), ('owo', 'AND'), ('uwu', 'OR'), ('ehe', 'TRUE'), ('sike', 'FALSE')]
 BUILT_IN_FUNCTIONS = [('konnichiwa', 'PRINT')]
 
 #Declaring the class token that will represent the blueprint for tokenization within th elexer
