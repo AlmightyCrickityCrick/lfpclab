@@ -5,7 +5,7 @@ def normalize_var(V):
 
 Vn = normalize_var("{S, A, B, C, D}")
 Vt = normalize_var("{a, b, d}")
-Prod = normalize_var("{S-> dB, S->AC, A->d,  A->dS, A-> aBdB, B->a, B->aA, B->C, D->C, B->AC, D->ab, C->bC, C->empty}")
+Prod = normalize_var("{S-> dB, S->AC, A->d, A->dS, A->aBdB, B->a, B->aA, B->AC, D->ab, C->bC, C->empty}")
 
 print(Vn)
 print(Vt)

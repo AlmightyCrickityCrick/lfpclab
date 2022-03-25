@@ -1,3 +1,8 @@
+
+from ast import Return
+from lib2to3.pytree import convert
+
+
 class Chomsky:
     Vn = []
     Vt = []
@@ -22,13 +27,16 @@ class Chomsky:
 
     def normalize_grammar(self):
         P1 = self.eliminate_empty(self.P)
+        print(P1)
         P2 = self.eliminate_renaming(P1)
+        print(P2)
         P3, Vn, Vt = self.eliminate_inaccessible(P2)
+        print(P3)
         P4, Vn = self.eliminate_non_productive(P3, Vn, Vt)
         print(P4)
 
         P5, Vn = self.bring_to_chomsky(P4, Vn, Vt)
-        print(P5)
+        print(P5, Vn)
     
     def eliminate_empty(self, P):
         P1 = P
@@ -97,18 +105,28 @@ class Chomsky:
     def eliminate_non_productive(self, P, Vn, Vt):
         P4 = P.copy()
         productive = []
-
+        non_prod = Vn.copy()
         no_change_flag = False
         while not no_change_flag:
-            tmp = []
-            for v in Vn:
+            tmp = productive.copy()
+            for v in non_prod:
                 #Filters and creates a list of all terminals for a certain Vn in production
                 direct_prod = list(filter(lambda x: x in Vt, P4[v]))
-                indirect_prod = list(filter(lambda x: x in str(P4[v]), productive))
-                res = direct_prod
-                res.extend(indirect_prod)
-                if len(res) > 0:
+                if len(direct_prod) > 0:
                     tmp.append(v)
+                    non_prod.remove(v)
+                else:
+                    for trans in P4[v]:
+                        print(trans)
+                        indirect_prod = list(filter(lambda x: x in non_prod, trans))
+                        print(indirect_prod)
+                        if len(indirect_prod) == 0:
+                            tmp.append(v)
+                            non_prod.remove(v)
+                            break
+
+
+
                 
             if len(tmp) == len(productive) or len(tmp) == len(Vn): 
                 no_change_flag = True
@@ -119,16 +137,66 @@ class Chomsky:
                     
         if len(productive) == len(Vn) : return P4, Vn
 
-        non_prod = list(set(Vn).difference(set(productive)))
-
         for np in non_prod:
             P4.pop(np)
-            for k, v in P4:
+            for k, v in P4.items():
                 for trans in v:
                     if np in trans: P4[k].remove(trans)
 
+        print(P4)
         return P4, productive
 
     def bring_to_chomsky(self, P, Vn, Vt):
-        pass
+        P5 = {}
+        self.aux = {}
+        self.y = 0
+
+        for i in range(len(Vt)):
+            self.aux[Vt[i]] = ("X" + str(i))
+
+        for k, v in P.items():
+            P5[k] = []
+            for trans in v:
+                if trans in Vt:
+                    P5[k].append(trans)
+                else:
+                    tmp = self.prepare_transition(trans, Vt, Vn)
+                    if len(tmp) == 4: 
+                        try: P5[k].append(tmp.replace(" ", ""))
+                        except: P5[k].append(tmp)
+                    else:
+                        tmp = tmp[:2] + self.convert_transition(tmp[2:])
+                        try: P5[k].append(tmp.replace(" ", ""))
+                        except: P5[k].append(tmp)
+
+        for k, v in self.aux.items():
+            lst = []
+            try: lst.append(k.replace(" ", ""))
+            except: lst.append(k)
+            P5[v] = lst
         
+        Vn.extend(list(self.aux.values()))
+        return P5, Vn
+                
+    def prepare_transition(self, trans, Vt, Vn):
+        transition = trans
+        for i in Vt:
+            if i in transition: transition = transition.replace(i, self.aux[i])
+        
+        for i in Vn:
+            if i in transition: transition = transition.replace(i , i + " ")
+
+        return transition
+    
+    def convert_transition(self, trans):
+        if len(trans)==2:
+            return trans
+        elif len(trans) == 4:
+            if trans in self.aux.keys():
+                return self.aux[trans]
+            else:
+                self.aux[trans] = "Y" + str(self.y)
+                self.y += 1
+                return self.aux[trans]
+        else:
+            return self.convert_transition(trans[0:2] + self.convert_transition(trans[2:]))
