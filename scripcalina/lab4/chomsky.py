@@ -1,3 +1,5 @@
+from graibach import *
+
 class Chomsky:
     Vn = []
     Vt = []
@@ -246,3 +248,7 @@ class Chomsky:
         #Converts the rest recursively, then merges them and converts the solution one last time
         else:
             return self.convert_transition(trans[0:2] + self.convert_transition(trans[2:]))
+
+
+    def bring_to_graibach(self):
+        return Graibach(self.Vn, self.Vt, self.aux, self.P)
