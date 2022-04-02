@@ -89,11 +89,15 @@ class Graibach:
         for trans in left_fact:
             print(trans)
             z_trans.append(trans[1:-1])
-            if z_trans[-1]!= '': P1[k[i]].remove(trans) #Not sure what to do with candidates that result in empty string
+            P1[k[i]].remove(trans)
         
         #If the candidates do not result in empty strings and list not empty, adds the Z to the production 
         z_trans = list(set(z_trans))
-        if '' in z_trans: z_trans.remove('')
+        #If candidates include empty string, add variant with only c to original list and exclude empty
+        if '' in z_trans: 
+            z_trans.remove('')
+            if c not in P1[k[i]]:P1[k[i]].append(c)
+        #If the list is not empty, adds Z to production and c+Z to the list of transitions of current element
         if len(z_trans) >0:
             P1[k[i]].append(c + current_z)
             k.append(current_z)
