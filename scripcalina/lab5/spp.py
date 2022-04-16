@@ -222,9 +222,13 @@ class Simple_PP:
                 if self.matrix.loc[prev, cand]=="=" and self.matrix.loc[cand, next]=="=":
                     return cand, False
 
-            #If 2 or more candidates, checks which of them has = relationship with any of its neighbours
+            #If 2 or more candidates, checks which of them has = relationship with its right neighbour
             for cand in candidates:
-                if self.matrix.loc[prev, cand]=="=" or self.matrix.loc[cand, next]=="=":
+                if self.matrix.loc[cand, next]=="=":
+                    return cand, False
+            #If 2 or more candidates, checks which of them has = relationship with its left neighbour
+            for cand in candidates:
+                if self.matrix.loc[prev, cand]=="=":
                     return cand, False
             #If neither, for now, returns the first candidate
             return candidates[0]
